@@ -7,11 +7,19 @@ namespace VAE
     {
         static void Main(string[] args)
         {
+            var filePath = GetUserSuppliedFilePath();
+
+            while (string.IsNullOrWhiteSpace(filePath))
+            {
+                Console.WriteLine("You did not enter a valid filePath.");
+                filePath = GetUserSuppliedFilePath();
+            }                
+
             try
             {
                 var service = new BiGramParsingService();
 
-                var rawText = service.ReadTextFile("Input.txt");
+                var rawText = service.ReadTextFile(filePath);
 
                 var cleanText = service.RemoveNonAlphanumericCharacters(rawText);
 
@@ -33,7 +41,7 @@ namespace VAE
             }
 
             Console.WriteLine("");
-            Console.WriteLine("Press any key to continue . . .");
+            Console.WriteLine("Press any key to exit . . .");
             Console.ReadLine();
         }
 
@@ -45,10 +53,20 @@ namespace VAE
                 return;
             }
 
+            Console.WriteLine("The histogram of the bigrams in the text file are:");
+
             foreach (var entry in histogram)
             {
                 Console.WriteLine($"\"{entry.Key}\" {entry.Value}");
             }
+        }
+
+        private static string GetUserSuppliedFilePath()
+        {
+            Console.WriteLine("Please enter the fully qualified path for the input text file e.g. \"C:\\Projects\\VAE\\VAE\\Input.txt\"");
+            var filePath = Console.ReadLine();
+            Console.WriteLine("");
+            return filePath;
         }
     }
 }

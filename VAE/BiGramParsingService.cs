@@ -7,7 +7,7 @@ namespace VAE
 {
     public interface IBiGramParsingService
     {
-        string ReadTextFile(string fileName);
+        string ReadTextFile(string filePath);
         string RemoveNonAlphanumericCharacters(string input);
         string[] TokenizeInput(string input);
         Dictionary<string, List<string>> GetBiGrams(string[] tokens);
@@ -16,8 +16,8 @@ namespace VAE
 
     public class BiGramParsingService : IBiGramParsingService
     {
-        public string ReadTextFile(string fileName)
-            => File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), fileName));       
+        public string ReadTextFile(string filePath)
+            => File.ReadAllText(filePath);       
 
         public string RemoveNonAlphanumericCharacters(string input)
             => new string(input.Where(c => (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))).ToArray());
